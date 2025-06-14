@@ -31,3 +31,6 @@ Thumbs.db
 
 # Ignore uploaded files (such as resumes)
 */uploaded_files/
+
+# Ignore env files
+.env

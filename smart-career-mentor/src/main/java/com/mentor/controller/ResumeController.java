@@ -1,5 +1,6 @@
 package com.mentor.controller;
 
+import com.mentor.service.GptService;
 import com.mentor.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class ResumeController {
     @Autowired
     private ResumeService resumeService;
 
+    @Autowired
+    private GptService gptService;
+
     @PostMapping("/analyze")
     public ResponseEntity<Map<String, String>> analyzeResume(
             @RequestParam("resume") MultipartFile resume,
@@ -26,9 +30,12 @@ public class ResumeController {
                 String resumeText = resumeService.parseResume(resume);
                 String jobText = jobDesc.trim();
 
+                String gptResponse = gptService.analyzeResumewithGPT(resumeText, jobText);
+
                 Map<String, String> result = new HashMap<>();
                 result.put("resume", resumeText);
                 result.put("job", jobText);
+                result.put("gpt", gptResponse);
                 
                 return ResponseEntity.ok(result);
             }
