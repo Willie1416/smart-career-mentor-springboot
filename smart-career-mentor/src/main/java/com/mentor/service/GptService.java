@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 public class GptService {
 
-    private String apiKey = "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";
+String apiKey = System.getenv("openai.api.key"); // add ;
 
 
     // Build the post request
