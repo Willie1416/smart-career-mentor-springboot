@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 // Resume is passed into the file and the text is parsed
+@Service
 public class ResumeService {
 
     public String parseResume(MultipartFile file) throws IOException {
