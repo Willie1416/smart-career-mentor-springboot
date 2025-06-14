@@ -12,6 +12,7 @@ import java.util.Map;
 
 
 // Class that extracts resume and job description and return them in a hashmap
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ResumeController {
@@ -25,7 +26,7 @@ public class ResumeController {
     @PostMapping("/analyze")
     public ResponseEntity<Map<String, String>> analyzeResume(
             @RequestParam("resume") MultipartFile resume,
-            @RequestParam("jobDesc") String jobDesc) throws IOException{
+            @RequestParam("jobDescription") String jobDesc) throws IOException{
 
                 String resumeText = resumeService.parseResume(resume);
                 String jobText = jobDesc.trim();

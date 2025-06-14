@@ -16,8 +16,6 @@ public class ResumeService {
         PDFTextStripper stripper = new PDFTextStripper();
         String text = stripper.getText(document);
 
-        text = text.replaceAll("\\r\\n", " ").replaceAll("\\n", " ").trim();
-
         document.close();
         return text;
     }

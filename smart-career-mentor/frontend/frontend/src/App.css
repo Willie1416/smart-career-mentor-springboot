@@ -1,0 +1,106 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Center the form and content */
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f7fa;
+  }
+  
+  div {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  /* Styling for headers */
+  h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+  
+  /* Style the form elements */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="file"], 
+  textarea, 
+  button {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  input[type="file"] {
+    background-color: #f9f9f9;
+    width: 300px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Additional spacing */
+  textarea {
+    height: 150px;
+    width: 300px;
+    justify-content: start;
+  }
+  
+  /* Add responsiveness for smaller screens */
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+  
+    div {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 1.2rem;
+    }
+  
+    input[type="file"], 
+    textarea, 
+    button {
+      font-size: 0.9rem;
+    }
+  }
+  
