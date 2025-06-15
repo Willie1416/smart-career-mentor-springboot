@@ -7,26 +7,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import io.github.cdimascio.dotenv.Dotenv;
 
 
 @Service
 public class GptService {
 
-    String apiKey = System.getenv("openai.api.key"); // add ;
+    // Better practice: Use @Value for configuration
+    private final String apiKey;
+    private final WebClient webClient;
 
+    public GptService() {
+        Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing() // Optional: don't crash if file is missing
+            .load();
 
-    // Build the post request
-    WebClient webClient = WebClient.builder()
-            .baseUrl("https://api.openai.com/v1/chat/completions")
-            .defaultHeader("Authorization", "Bearer " + apiKey)
-            .defaultHeader("Content-type", "application/json")
-            .build();
+        this.apiKey = dotenv.get("OPENAI_API_KEY");
 
+        if (this.apiKey == null || this.apiKey.isEmpty()) {
+            throw new IllegalStateException("OpenAI API key not found in environment variables");
+        }
+
+        // Build the post request
+        this.webClient = WebClient.builder()
+                .baseUrl("https://api.openai.com/v1/chat/completions")
+                .defaultHeader("Authorization", "Bearer " + this.apiKey)
+                .defaultHeader("Content-type", "application/json")
+                .build();
+    }
 
     public String analyzeResumewithGPT(String resume, String job){
         Map<String, Object> body = new HashMap<>();
 
-        body.put("model", "gpt-4");
+        body.put("model", "gpt-3.5-turbo");
 
         //Building message for request
         List<Map<String, String>> messages = new ArrayList<>(); 
@@ -34,7 +47,7 @@ public class GptService {
         // System message
         Map<String, String> systemMessage = new HashMap<>();
         systemMessage.put("role", "system");
-        systemMessage.put("content", "You are a helpful resume assitant.");
+        systemMessage.put("content", "You are a helpful resume assistant. Analyze the resume against the job description and provide feedback.");
         messages.add(systemMessage);
 
         // User message
@@ -57,12 +70,19 @@ public class GptService {
 
         } catch (WebClientResponseException e) {
             // Handling specific WebClient response exceptions (HTTP errors)
-            return "Error from OpenAI API: " + e.getStatusCode() + " - " + e.getMessage();
+            return String.format("""
+                    Error from OpenAI API:
+                    Status: %d
+                    Response Body: %s
+                    Headers: %s
+                    """, 
+                    e.getStatusCode().value(),
+                    e.getResponseBodyAsString(),
+                    e.getHeaders());
 
         } catch (Exception e) {
             // Catching any other exceptions (e.g., network failure, unexpected issues)
-            return "Error processing request: " + e.getMessage();
+            return "Unexpected error: " + e.getMessage() + "\nStack Trace: " + e.getStackTrace()[0];
         }
     }
-
 }
