@@ -16,7 +16,7 @@ public class GptService {
 
     public GptService(
             @Value("${ollama.url:http://localhost:11434}") String ollamaUrl,
-            @Value("${ollama.model:deepseek-coder:instruct}") String modelName) {
+            @Value("${ollama.model:deepseek-r1:latest}") String modelName) {
         this.ollamaUrl = ollamaUrl;
         this.modelName = modelName;
         this.webClient = WebClient.builder()
